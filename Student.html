@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookBridgers — Student Dashboard</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+:root {
+  --accent-blue:#7fb1ff;
+  --deep-blue:#2b3b4a;
+  --muted:#6b7785;
+  --cta-blue:#85a9ff;
+}
+body{font-family:'Helvetica Neue',Arial,sans-serif;color:var(--deep-blue);background:#f7f9fb;margin:0;line-height:1.5;}
+.page-wrap{max-width:1200px;margin:0 auto;}
+.topbar{background:#fff;border-bottom:1px solid rgba(43,59,74,0.03);padding:0 20px;}
+.brand{font-weight:700;color:var(--accent-blue);display:flex;align-items:center;gap:.6rem;}
+.brand .logo{width:36px;height:36px;border-radius:6px;background:linear-gradient(135deg,#cfe9ff,#a7f0d0);display:inline-flex;align-items:center;justify-content:center;}
+nav a{color:var(--deep-blue);text-decoration:none;margin-right:16px;font-weight:600;}
+nav a:hover{color:var(--accent-blue);}
+h2{font-weight:700;margin-bottom:20px;}
+p{color:var(--muted);}
+.section-title{margin-top:20px;margin-bottom:20px;font-weight:700;font-size:22px;}
+
+/* Book Cards */
+.card{background:#fff;padding:15px;border-radius:12px;box-shadow:0 8px 20px rgba(18,34,56,0.05);margin-bottom:20px;}
+.card h5{margin:0;font-size:18px;color:var(--deep-blue);}
+.card p{margin:2px 0;color:var(--muted);}
+.card .status{font-weight:600;}
+
+/* Buttons */
+.btn-primary{background:var(--cta-blue);border:none;padding:10px 20px;color:white;font-size:14px;}
+.btn-outline-primary{border:1px solid var(--cta-blue);padding:10px 20px;color:var(--cta-blue);background:#fff;font-size:14px;}
+
+/* Account Details */
+.account-card{background:#fff;padding:20px;border-radius:12px;box-shadow:0 8px 20px rgba(18,34,56,0.05);}
+.account-card h4{margin-bottom:20px;}
+.account-card label{font-weight:600;}
+.account-card input{width:100%;padding:8px 10px;margin-bottom:15px;border-radius:6px;border:1px solid #ccc;}
+.account-card button{width:100%;padding:10px 0;font-size:14px;}
+.profile-pic{width:80px;height:80px;border-radius:50%;object-fit:cover;margin-bottom:15px;border:2px solid var(--accent-blue);}
+
+/* Collapsible Sidebar */
+.sidebar{
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 8px 20px rgba(18,34,56,0.05);
+  padding:20px;
+  position:fixed;
+  top:0;
+  left:-260px;
+  width:250px;
+  height:100%;
+  transition:0.3s;
+  z-index:1000;
+}
+.sidebar.active{left:0;}
+.sidebar h4{margin-bottom:20px;}
+.sidebar nav a{display:block;margin:12px 0;font-weight:600;}
+.menu-btn{
+  font-size:26px;
+  cursor:pointer;
+  color:var(--deep-blue);
+  margin-right:10px;
+}
+.overlay{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.5);
+  z-index:900;
+}
+.overlay.active{display:block;}
+</style>
+</head>
+<body>
+
+<header class="topbar d-flex align-items-center justify-content-start py-3">
+  <span class="menu-btn d-md-none" onclick="toggleSidebar()">☰</span>
+  <div class="brand me-4"><span class="logo">📚</span><span>BookBridgers</span></div>
+  <nav class="d-none d-md-flex">
+    <a href="index.html">Home</a>
+    <a href="community.html">Community</a>
+    <a href="student.html">Student</a>
+    <a href="library.html">Library</a>
+    <a href="donor.html">Donor</a>
+    <a href="login.html">Login</a>
+  </nav>
+</header>
+
+<div class="sidebar" id="sidebar">
+  <h4>Account Menu</h4>
+  <img src="https://via.placeholder.com/80" alt="Profile Picture" class="profile-pic">
+  <nav>
+    <a href="#">Dashboard</a>
+    <a href="#">My Borrowed Books</a>
+    <a href="#">Wishlist</a>
+    <a href="#">Past Borrowed</a>
+    <a href="#">Update Account</a>
+  </nav>
+</div>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<main class="page-wrap my-5">
+  <div class="row g-4">
+    <!-- Left Column -->
+    <div class="col-md-8">
+      <h2>Student Dashboard</h2>
+      <div class="current-borrowed">
+        <h3 class="section-title">Currently Borrowed Books</h3>
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="card">
+              <h5>Introduction to Algorithms</h5>
+              <p>Author: Thomas H. Cormen</p>
+              <p class="status">Due Date: 05 Oct 2025</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <h5>Modern Physics</h5>
+              <p>Author: Kenneth Krane</p>
+              <p class="status">Due Date: 10 Oct 2025</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wishlist">
+        <h3 class="section-title">Wishlist Books</h3>
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="card">
+              <h5>Harry Potter and the Sorcerer's Stone</h5>
+              <p>Author: J.K. Rowling</p>
+              <button class="btn btn-primary" onclick="borrowBook('Harry Potter and the Sorcerer\\'s Stone')">Borrow</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="past-borrowed">
+        <h3 class="section-title">Past Borrowed Books</h3>
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="card">
+              <h5>Sapiens: A Brief History of Humankind</h5>
+              <p>Author: Yuval Noah Harari</p>
+              <p class="status">Returned on: 15 Sep 2025</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Account Details -->
+    <div class="col-md-4">
+      <div class="account-card">
+        <h4>Account Details</h4>
+        <img src="https://images.unsplash.com/photo-1707396174323-dd31d3dd4a97?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHByb2ZpbGUlMjBwaWN0dXJlJTIwbm8lMjBmYWNlJTIwZHVtbXklMjBnaXJsfGVufDB8fDB8fHww" alt="Profile Picture" class="profile-pic">
+        <label for="username">Username</label>
+        <input type="text" id="username" value="Harshita Bagwe">
+        
+        <label for="email">Email</label>
+        <input type="email" id="email" value="harshita@example.com">
+
+        <label for="password">Change Password</label>
+        <input type="password" id="password" placeholder="New Password">
+
+        <button class="btn btn-primary mt-2">Update Account</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="py-4 text-center" style="color:var(--muted);border-top:1px solid rgba(43,59,74,0.03);margin-top:40px;">
+  <div class="page-wrap">©BookBridgers. Connecting students with knowledge.</div>
+</footer>
+
+<script>
+function borrowBook(bookName){
+  alert(`You have borrowed "${bookName}"!`);
+}
+
+// Sidebar toggle
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('active');
+  document.getElementById('overlay').classList.toggle('active');
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookBridgers — Student Dashboard</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<style>
+:root {
+  --accent-blue:#7fb1ff; /* Button color */
+  --deep-blue:#2b3b4a;
+  --muted:#6b7785;
+
+}
+body{font-family:'Helvetica Neue',Arial,sans-serif;color:var(--deep-blue);background:#f7f9fb;margin:0;line-height:1.5;}
+.page-wrap{max-width:1200px;margin:0 auto;}
+.topbar{background:#fff;border-bottom:1px solid rgba(43,59,74,0.03);padding:0 20px;}
+.brand{font-weight:700;color:var(--accent-blue);display:flex;align-items:center;gap:.6rem;}
+.brand .logo{width:36px;height:36px;border-radius:6px;background:linear-gradient(135deg,#cfe9ff,#a7f0d0);display:inline-flex;align-items:center;justify-content:center;}
+nav a{color:var(--deep-blue);text-decoration:none;margin-right:16px;font-weight:600;}
+nav a:hover{color:var(--accent-blue);}
+h2{font-weight:700;margin-bottom:20px;}
+p{color:var(--muted);}
+.section-title{margin-top:20px;margin-bottom:20px;font-weight:700;font-size:22px;}
+
+/* Book Cards */
+.card{background:#fff;padding:15px;border-radius:12px;box-shadow:0 8px 20px rgba(18,34,56,0.05);margin-bottom:20px;}
+.card h5{margin:0;font-size:18px;color:var(--deep-blue);}
+.card p{margin:2px 0;color:var(--muted);}
+.card .status{font-weight:600;}
+
+/* Buttons */
+.btn-primary {
+  background: var(--accent-blue);
+  border: none;
+  padding: 10px 20px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: #5e87e7; /* Darker accent-blue */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 10px rgba(127, 177, 255, 0.6); /* Glow effect */
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-outline-primary{border:1px solid var(--accent-blue);padding:10px 20px;color:var(--accent-blue);background:#fff;font-size:14px;}
+
+/* Account Details */
+.account-card{background:#fff;padding:20px;border-radius:12px;box-shadow:0 8px 20px rgba(18,34,56,0.05);}
+.account-card h4{margin-bottom:20px;}
+.account-card label{font-weight:600;}
+.account-card input{width:100%;padding:8px 10px;margin-bottom:15px;border-radius:6px;border:1px solid #ccc;}
+.account-card button{width:100%;padding:10px 0;font-size:14px;}
+.profile-pic{width:80px;height:80px;border-radius:50%;object-fit:cover;margin-bottom:15px;border:2px solid var(--accent-blue);}
+
+/* Sidebar */
+.sidebar{background:#fff;border-radius:12px;box-shadow:0 8px 20px rgba(18,34,56,0.05);padding:20px;position:fixed;top:0;left:-260px;width:250px;height:100%;transition:0.3s;z-index:1000;}
+.sidebar.active{left:0;}
+.sidebar h4{margin-bottom:20px;}
+.sidebar nav a{display:block;margin:12px 0;font-weight:600;}
+.menu-btn{font-size:26px;cursor:pointer;color:var(--deep-blue);margin-right:10px;}
+.overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:900;}
+.overlay.active{display:block;}
+
+/* Map */
+#libraryMap{height:400px;width:100%;border-radius:12px;margin-top:15px;}
+#libraryMessage{font-weight:600;color:var(--deep-blue);margin-bottom:10px;}
+</style>
+</head>
+<body>
+
+<header class="topbar d-flex align-items-center justify-content-start py-3">
+  <span class="menu-btn d-md-none" onclick="toggleSidebar()">☰</span>
+  <div class="brand me-4"><span class="logo">📚</span><span>BookBridgers</span></div>
+  <nav class="d-none d-md-flex">
+    <a href="index.html">Home</a>
+    <a href="community.html">Community</a>
+    <a href="student.html">Student</a>
+    <a href="library.html">Library</a>
+    <a href="donor.html">Donor</a>
+    <a href="login.html">Login</a>
+  </nav>
+</header>
+
+<div class="sidebar" id="sidebar">
+  <h4>Account Menu</h4>
+  <img src="https://via.placeholder.com/80" alt="Profile Picture" class="profile-pic">
+  <nav>
+    <a href="#">Dashboard</a>
+    <a href="#">My Borrowed Books</a>
+    <a href="#">Wishlist</a>
+    <a href="#">Past Borrowed</a>
+    <a href="#">Update Account</a>
+  </nav>
+</div>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<main class="page-wrap my-5">
+  <div class="row g-4">
+    <!-- Left Column -->
+    <div class="col-md-8">
+      <h2>Student Dashboard</h2>
+
+      <div class="wishlist">
+        <h3 class="section-title">Available Books</h3>
+        <div class="row g-4" id="booksGrid"></div>
+      </div>
+
+      <div class="library-section mt-4">
+        <h3 class="section-title">Pick Up from Nearest Library</h3>
+        <input type="text" id="userAddress" class="form-control mb-2" placeholder="Enter your address...">
+        <button class="btn btn-primary mb-2" onclick="findLibrary()">Show Nearest Libraries</button>
+        <div id="libraryMessage"></div>
+        <div id="libraryMap"></div>
+      </div>
+    </div>
+
+    <!-- Right Column: Account Details -->
+    <div class="col-md-4">
+      <div class="account-card">
+        <h4>Account Details</h4>
+        <img src="https://images.unsplash.com/photo-1707396174323-dd31d3dd4a97?w=900&auto=format&fit=crop&q=60" alt="Profile Picture" class="profile-pic">
+        <label for="username">Username</label>
+        <input type="text" id="username" value="Harshita Bagwe">
+        <label for="email">Email</label>
+        <input type="email" id="email" value="harshita@example.com">
+        <label for="password">Change Password</label>
+        <input type="password" id="password" placeholder="New Password">
+        <button class="btn btn-primary mt-2">Update Account</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="py-4 text-center" style="color:var(--muted);border-top:1px solid rgba(43,59,74,0.03);margin-top:40px;">
+  <div class="page-wrap">©BookBridgers. Connecting students with knowledge.</div>
+</footer>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+// Sidebar toggle
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('active');
+  document.getElementById('overlay').classList.toggle('active');
+}
+
+// Sample books data with admin verification
+const books = [
+  {title:"Harry Potter and the Sorcerer's Stone", author:"J.K. Rowling", adminVerified:true},
+  {title:"Introduction to Algorithms", author:"Thomas H. Cormen", adminVerified:false},
+  {title:"Zero to One", author:"Peter Thiel", adminVerified:true},
+  {title:"Sapiens", author:"Yuval Noah Harari", adminVerified:true}
+];
+
+// Render books
+const booksGrid = document.getElementById('booksGrid');
+books.forEach(book=>{
+  const col = document.createElement('div');
+  col.className = 'col-md-6';
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <h5>${book.title}</h5>
+    <p>Author: ${book.author}</p>
+    <p class="status">Verified: ${book.adminVerified ? 'Yes' : 'No'}</p>
+    <button class="btn-primary" ${book.adminVerified ? '' : 'disabled'} 
+      onclick="${book.adminVerified ? `pickupBook()` : ''}">
+      ${book.adminVerified ? 'Pick Up' : 'Unavailable'}
+    </button>
+  `;
+  col.appendChild(card);
+  booksGrid.appendChild(col);
+});
+
+// Scroll to library and show nearest libraries
+function pickupBook() {
+  const librarySection = document.querySelector('.library-section');
+  librarySection.scrollIntoView({ behavior: 'smooth' });
+  const addressInput = document.getElementById('userAddress');
+  addressInput.focus();
+  findLibrary();
+}
+
+// Initialize OpenStreetMap
+const map = L.map('libraryMap').setView([19.0760, 72.8777], 12);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap contributors'
+}).addTo(map);
+
+// Sample libraries
+const libraries = [
+  {name:"City Central Library", lat:19.081, lng:72.885},
+  {name:"Eastside Community Library", lat:19.095, lng:72.890},
+  {name:"Westside Public Library", lat:19.070, lng:72.870}
+];
+
+let markers = [];
+function showLibraries(){
+  markers.forEach(m=>map.removeLayer(m));
+  markers = [];
+  libraries.forEach(lib=>{
+    const marker = L.marker([lib.lat, lib.lng]).addTo(map)
+      .bindPopup(`<b>${lib.name}</b><br><button onclick="alert('Go to ${lib.name} to pick up your book!')">Select</button>`);
+    markers.push(marker);
+  });
+  map.fitBounds(markers.map(m=>m.getLatLng()));
+}
+
+// Find nearest library (mock)
+function findLibrary(){
+  const address = document.getElementById('userAddress').value.trim();
+  if(!address){ 
+    alert('Enter your address'); 
+    return; 
+  }
+  document.getElementById('libraryMessage').textContent = `Nearest libraries are shown on the map. Click marker to pick up a book.`;
+  showLibraries();
+}
+</script>
+</body>
+</html>

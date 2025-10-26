@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookBridgers — Admin Panel</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+:root {
+  --accent-blue:#7fb1ff;
+  --deep-blue:#2b3b4a;
+  --muted:#6b7785;
+  --cta-blue:#85a9ff;
+  --card-bg:#fff;
+}
+body{font-family:'Helvetica Neue',Arial,sans-serif;color:var(--deep-blue);background:#f7f9fb;margin:0;line-height:1.5;}
+.page-wrap{max-width:1200px;margin:0 auto;}
+.topbar{background:#fff;border-bottom:1px solid rgba(43,59,74,0.03);}
+.brand{font-weight:700;color:var(--accent-blue);display:flex;align-items:center;gap:.6rem;}
+.brand .logo{width:36px;height:36px;border-radius:6px;background:linear-gradient(135deg,#cfe9ff,#a7f0d0);display:inline-flex;align-items:center;justify-content:center;}
+nav a{color:var(--deep-blue);text-decoration:none;margin-right:16px;font-weight:600;}
+nav a:hover{color:var(--accent-blue);}
+h2,h3{font-weight:700;margin-bottom:20px;}
+p{color:var(--muted);}
+.card{background:var(--card-bg);padding:15px;border-radius:12px;box-shadow:0 8px 20px rgba(18,34,56,0.05);margin-bottom:20px;}
+.card table{width:100%;border-collapse:collapse;}
+.card table th, .card table td{padding:8px;text-align:left;border-bottom:1px solid #ddd;}
+.btn-primary{background:var(--cta-blue);border:none;padding:10px 20px;color:white;font-size:14px;margin-right:5px;}
+.btn-outline-primary{border:1px solid var(--cta-blue);padding:10px 20px;color:var(--cta-blue);background:#fff;font-size:14px;}
+</style>
+</head>
+<body>
+
+<header class="topbar py-3">
+  <div class="page-wrap d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center gap-3">
+      <div class="brand"><span class="logo">📚</span><span>BookBridgers</span></div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="community.html">Community</a>
+        <a href="student.html">Student</a>
+        <a href="library.html">Library</a>
+        <a href="donor.html">Donor</a>
+        <a href="admin.html">Admin Panel</a>
+        <a href="login.html">Login</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main class="page-wrap my-5">
+  <h2>Admin Panel</h2>
+
+  <!-- Borrow Requests -->
+  <div class="card">
+    <h3>Pending Borrow Requests</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Student Name</th>
+          <th>Book</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="borrow-requests">
+        <tr>
+          <td>Harshita Bagwe</td>
+          <td>Harry Potter</td>
+          <td>Pending</td>
+          <td>
+            <button class="btn-primary" onclick="updateRequest(this,'Approved')">Approve</button>
+            <button class="btn-outline-primary" onclick="updateRequest(this,'Rejected')">Reject</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Omsing Pawar</td>
+          <td>Introduction to Algorithms</td>
+          <td>Pending</td>
+          <td>
+            <button class="btn-primary" onclick="updateRequest(this,'Approved')">Approve</button>
+            <button class="btn-outline-primary" onclick="updateRequest(this,'Rejected')">Reject</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Riya Sharma</td>
+          <td>Zero to One</td>
+          <td>Pending</td>
+          <td>
+            <button class="btn-primary" onclick="updateRequest(this,'Approved')">Approve</button>
+            <button class="btn-outline-primary" onclick="updateRequest(this,'Rejected')">Reject</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Aditya Singh</td>
+          <td>Psychology of Money</td>
+          <td>Pending</td>
+          <td>
+            <button class="btn-primary" onclick="updateRequest(this,'Approved')">Approve</button>
+            <button class="btn-outline-primary" onclick="updateRequest(this,'Rejected')">Reject</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Priya Patel</td>
+          <td>Clean Code</td>
+          <td>Pending</td>
+          <td>
+            <button class="btn-primary" onclick="updateRequest(this,'Approved')">Approve</button>
+            <button class="btn-outline-primary" onclick="updateRequest(this,'Rejected')">Reject</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Book Database -->
+  <div class="card">
+    <h3>Book Database</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Book</th>
+          <th>Author</th>
+          <th>Status</th>
+          <th>Borrower</th>
+        </tr>
+      </thead>
+      <tbody id="book-database">
+        <tr>
+          <td>Harry Potter</td>
+          <td>J.K. Rowling</td>
+          <td>Borrowed</td>
+          <td>Harshita Bagwe</td>
+        </tr>
+        <tr>
+          <td>Introduction to Algorithms</td>
+          <td>Thomas Cormen</td>
+          <td>Available</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>Zero to One</td>
+          <td>Peter Thiel</td>
+          <td>Available</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>Psychology of Money</td>
+          <td>Morgan Housel</td>
+          <td>Available</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>Clean Code</td>
+          <td>Robert C. Martin</td>
+          <td>Available</td>
+          <td>-</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- User Database -->
+  <div class="card">
+    <h3>User Database</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+        </tr>
+      </thead>
+      <tbody id="user-database">
+        <tr>
+          <td>Harshita Bagwe</td>
+          <td>harshita@example.com</td>
+          <td>Student</td>
+        </tr>
+        <tr>
+          <td>Omsing Pawar</td>
+          <td>omsing@example.com</td>
+          <td>Student</td>
+        </tr>
+        <tr>
+          <td>Library Admin</td>
+          <td>library@example.com</td>
+          <td>Library</td>
+        </tr>
+        <tr>
+          <td>Donor User</td>
+          <td>donor@example.com</td>
+          <td>Donor</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</main>
+
+<footer>
+  <div class="page-wrap">© BookBridgers. Connecting students with knowledge.</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function updateRequest(button,status){
+  let row = button.closest('tr');
+  // update status
+  row.querySelector('td:nth-child(3)').innerText = status;
+  // remove action buttons
+  row.querySelector('td:nth-child(4)').innerHTML = '';
+  alert(`Request ${status} for "${row.querySelector('td:nth-child(2)').innerText}"`);
+}
+</script>
+</body>
+</html>

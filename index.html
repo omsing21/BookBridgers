@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookBridgers — Home</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+:root {
+  --accent-blue:#7fb1ff;
+  --deep-blue:#2b3b4a;
+  --muted:#6b7785;
+  --cta-blue:#85a9ff;
+  --hero-gradient:linear-gradient(90deg,#e6f3ff 0%, #e6fff1 100%);
+}
+body {
+  font-family:'Helvetica Neue',Arial,sans-serif;
+  color:var(--deep-blue);
+  background:#f7f9fb;
+  margin:0;
+  line-height:1.5;
+}
+.page-wrap{max-width:1200px;margin:0 auto;}
+.topbar{background:#fff;border-bottom:1px solid rgba(43,59,74,0.03);}
+.brand{font-weight:700;color:var(--accent-blue);display:flex;align-items:center;gap:.6rem;}
+.brand .logo{width:36px;height:36px;border-radius:6px;background:linear-gradient(135deg,#cfe9ff,#a7f0d0);display:inline-flex;align-items:center;justify-content:center;}
+nav a{color:var(--deep-blue);text-decoration:none;margin-right:16px;font-weight:600;}
+nav a:hover{color:var(--accent-blue);}
+.btn-primary{background:var(--cta-blue);border:none;padding:14px 26px;color:white;text-decoration:none;font-size:18px;margin-right:10px;}
+.btn-outline{background:#fff;border:1px solid rgba(43,59,74,0.08);padding:12px 24px;text-decoration:none;color:var(--deep-blue);}
+.carousel-section { background: var(--hero-gradient); padding-top: 60px; padding-bottom: 60px; }
+.carousel-inner img { height: 450px; object-fit: cover; border-radius: 8px; }
+.carousel-caption { background: rgba(43, 59, 74, 0.5); padding: 20px 30px; border-radius: 12px; }
+.carousel-caption h5 { font-weight: 700; color: #fff; font-size: 32px; }
+.carousel-caption p { color: #f1f1f1; font-size: 16px; }
+.about-section{padding:80px 20px;}
+.about-section h2{font-size:40px;font-weight:700;color:var(--deep-blue);margin-bottom:40px;text-align:center;}
+.about-card{background:#fff;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.05);padding:20px;text-align:center;transition:0.3s;}
+.about-card:hover{transform:translateY(-6px);}
+.about-card img{width:100%;height:200px;object-fit:cover;border-radius:8px;margin-bottom:18px;}
+.about-card h5{font-weight:600;margin-bottom:10px;color:var(--deep-blue);}
+.about-card p{color:var(--muted);font-size:15px;}
+.highlight-section { padding: 80px 20px; background: #fff; }
+.highlight-section .row { align-items: center; }
+.highlight-section img { width: 100%; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+.highlight-section h3 { font-size: 32px; font-weight: 700; color: var(--deep-blue); margin-bottom: 18px; }
+.highlight-section p { color: var(--muted); font-size: 17px; line-height: 1.6; }
+footer{color:var(--muted);border-top:1px solid rgba(43,59,74,0.03);margin-top:40px;padding:20px;text-align:center;}
+</style>
+</head>
+<body>
+
+<header class="topbar py-3">
+  <div class="page-wrap d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center gap-3">
+      <div class="brand"><span class="logo">📚</span><span>BookBridgers</span></div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="community.html">Community</a>
+        <a href="student.html">Student</a>
+        <a href="library.html">Library</a>
+        <a href="donor.html">Donor</a>
+        <a href='admin-dashboard.html'>Admin Panel</a>
+        <a href="login.html">Login</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Carousel Section -->
+  <section class="carousel-section">
+    <div class="page-wrap">
+      <div id="bookCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#bookCarousel" data-bs-slide-to="0" class="active"></button>
+          <button type="button" data-bs-target="#bookCarousel" data-bs-slide-to="1"></button>
+          <button type="button" data-bs-target="#bookCarousel" data-bs-slide-to="2"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba" class="d-block w-100" alt="Books on Shelf">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Bridge the Gap to Knowledge</h5>
+              <p>Connect students with books through libraries, institutions, and community donations.</p>
+              <a href="student.html" class="btn btn-primary">Start Requesting Books →</a>
+              <a href="community.html" class="btn btn-outline">Join Community</a>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f" class="d-block w-100" alt="Our Mission">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Our Mission</h5>
+              <p>To create equal access to education by connecting students with libraries, donors, and communities willing to share knowledge.</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f" class="d-block w-100" alt="Students Learning">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Empowering Students</h5>
+              <p>BookBridgers ensures every student has access to the right learning resources by connecting communities, libraries, and donors.</p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#bookCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#bookCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Us Section -->
+  <section class="about-section">
+    <div class="page-wrap">
+      <h2>About Us</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="about-card">
+            <img src="https://images.unsplash.com/photo-1553729784-e91953dec042?w=900&auto=format&fit=crop&q=60" alt="Our Mission">
+            <h5>Our Mission</h5>
+            <p>To create equal access to education by connecting students with libraries, donors, and communities willing to share books and knowledge.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="about-card">
+            <img src="https://images.unsplash.com/photo-1742552186060-f865f0e9a789?w=900&auto=format&fit=crop&q=60" alt="Our Community">
+            <h5>Our Community</h5>
+            <p>A global network of students, donors, and institutions working together to bridge the gap between those who have books and those who need them.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="about-card">
+            <img src="https://images.unsplash.com/photo-1727947248592-77b80a8d3a3a?w=900&auto=format&fit=crop&q=60" alt="Our Impact">
+            <h5>Our Impact</h5>
+            <p>Thousands of students have gained access to educational resources, empowering them to learn, grow, and achieve their dreams.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Highlight Section -->
+  <section class="highlight-section">
+    <div class="page-wrap">
+      <div class="row g-5">
+        <div class="col-md-6">
+          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f" alt="Students Learning">
+        </div>
+        <div class="col-md-6">
+          <h3>Empowering Students Everywhere</h3>
+          <p>BookBridgers goes beyond donations — we build a stronger future by ensuring every student has access to the right learning resources. By connecting communities, libraries, and donors, we are making quality education more inclusive and impactful.</p>
+          <p>Join us in building bridges of knowledge that empower the next generation of leaders and innovators.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="page-wrap">© BookBridgers. Connecting students with knowledge.</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
